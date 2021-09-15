@@ -17,7 +17,7 @@
     >
       <!--Default slot {{ currentStep }}-->
       <v-step
-        v-if="steps[currentStep]"
+        v-if="steps[currentStep] && type === 'normal'"
         :step="steps[currentStep]"
         :key="currentStep"
         :previous-step="previousStep"
@@ -26,6 +26,7 @@
         :skip="skip"
         :finish="finish"
         :is-first="isFirst"
+        :type="type"
         :is-last="isLast"
         :labels="customOptions.labels"
         :enabled-buttons="customOptions.enabledButtons"
@@ -38,6 +39,30 @@
           <a @click="nextStep">Next step</a>
         </div>-->
       </v-step>
+
+      <v-step-tip
+        v-if="steps[currentStep] && type === 'tip'"
+        :step="steps[currentStep]"
+        :key="currentStep"
+        :previous-step="previousStep"
+        :next-step="nextStep"
+        :stop="stop"
+        :skip="skip"
+        :finish="finish"
+        :is-first="isFirst"
+        :type="type"
+        :is-last="isLast"
+        :labels="customOptions.labels"
+        :enabled-buttons="customOptions.enabledButtons"
+        :highlight="customOptions.highlight"
+        :stop-on-fail="customOptions.stopOnTargetNotFound"
+        :debug="customOptions.debug"
+        @targetNotFound="$emit('targetNotFound', $event)"
+      >
+        <!--<div v-if="index === 2" slot="actions">
+          <a @click="nextStep">Next step</a>
+        </div>-->
+      </v-step-tip>
     </slot>
   </div>
 </template>
@@ -54,6 +79,10 @@ export default {
     },
     name: {
       type: String
+    },
+    type: {
+      type: String,
+      default: 'normal'
     },
     options: {
       type: Object,
@@ -195,7 +224,7 @@ export default {
       this.customCallbacks.onSkip()
       this.stop()
     },
-    finish () {
+    async finish () {
       this.customCallbacks.onFinish()
       this.stop()
     },

@@ -97,7 +97,7 @@
                 <button @click="nextStep" class="btn btn-lg mr-2">Next step</button>
                 <button @click="showLastStep" class="btn btn-lg">Show last step</button>
 
-                <v-tour name="myTour" :steps="steps" :callbacks="callbacks" :options="{ highlight: true }">
+                <!--v-tour name="myTour" type="tip" :steps="steps" :callbacks="callbacks" :options="{ highlight: true }">
                   <template slot-scope="tour">
                     <transition name="fade">
                       <v-step
@@ -122,7 +122,12 @@
                       </v-step>
                     </transition>
                   </template>
-                </v-tour>
+                </v-tour-->
+                <v-tour name="myTour" type="tip" :steps="steps" :callbacks="callbacks" :options="{ highlight: false, labels: { buttonSkip: 'Saltar',
+                buttonPrevious: 'Anterior',
+                buttonNext: 'Siguiente',
+                buttonStop: 'Terminar'
+              } }" />
               </div>
 
             </div>
@@ -192,7 +197,7 @@
         steps: [
           {
             target: '#v-step-0',
-            content: `Discover <strong>Vue Tour</strong>!`,
+            content: `1 - Discover <strong>Vue Tour</strong>!`,
             params: {
               highlight: false
             }

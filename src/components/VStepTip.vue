@@ -1,18 +1,22 @@
 <template>
     <div
-      v-bind:class="{ 'v-step--sticky': isSticky }"
-      class="v-step"
-      :id="'v-step-' + hash"
-      :ref="'v-step-' + hash"
+      v-if="type === 'tip'"
+      v-bind:class="{ 'v-step-tip--sticky': isSticky }"
+      class="v-step-tip"
+      :id="'v-step-tip' + hash"
+      :ref="'v-step-tip' + hash"
     >
       <slot name="header">
-        <div v-if="step.header" class="v-step__header">
+        <div v-if="step.header" class="v-step-tip__header">
           <div v-if="step.header.title" v-html="step.header.title"></div>
+        </div>
+        <div v-if="!step.header" class="v-step-tip__header_empty">
+          &nbsp;
         </div>
       </slot>
 
       <slot name="content">
-        <div class="v-step__content">
+        <div class="v-step-tip__content">
           <div v-if="step.content" v-html="step.content"></div>
           <div v-else>
             This is a demo step! The id of this step is {{ hash }} and it
@@ -22,43 +26,37 @@
       </slot>
 
       <slot name="actions">
-        <div class="v-step__buttons">
+        <div class="v-step-tip__buttons">
           <button
             @click.prevent="skip"
             v-if="!isLast && isButtonEnabled('buttonSkip')"
-            class="v-step__button v-step__button-skip"
+            class="v-step-tip__button v-step-tip__button-skip"
           >
             {{ labels.buttonSkip }}
           </button>
           <button
             @click.prevent="previousStep"
             v-if="!isFirst && isButtonEnabled('buttonPrevious')"
-            class="v-step__button v-step__button-previous"
+            class="v-step-tip__button v-step-tip__button-previous"
           >
             {{ labels.buttonPrevious }}
           </button>
           <button
             @click.prevent="nextStep"
             v-if="!isLast && isButtonEnabled('buttonNext')"
-            class="v-step__button v-step__button-next"
+            class="v-step-tip__button v-step-tip__button-next"
           >
             {{ labels.buttonNext }}
           </button>
           <button
             @click.prevent="finish"
             v-if="isLast && isButtonEnabled('buttonStop')"
-            class="v-step__button v-step__button-stop"
+            class="v-step-tip__button v-step-tip__button-stop"
           >
             {{ labels.buttonStop }}
           </button>
         </div>
       </slot>
-
-      <div
-        class="v-step__arrow"
-        :class="{ 'v-step__arrow--dark': step.header && step.header.title }"
-        data-popper-arrow
-      ></div>
     </div>
 </template>
 
@@ -69,7 +67,7 @@ import sum from 'hash-sum'
 import { DEFAULT_STEP_OPTIONS, HIGHLIGHT } from '../shared/constants'
 
 export default {
-  name: 'v-step',
+  name: 'v-step-tip',
   props: {
     step: {
       type: Object
@@ -134,7 +132,7 @@ export default {
      * A step is considered sticky if it has no target.
      */
     isSticky () {
-      return !this.step.target
+      return true // !this.step.target
     }
   },
   methods: {
@@ -262,10 +260,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-step {
+.v-step-tip {
   background: #50596c; /* #ffc107, #35495e */
   color: white;
-  max-width: 320px;
+  max-width: 620px;
+  width: 400px;
+  height: 400px;
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -279,57 +279,28 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    & .v-step__arrow {
-      display: none;
-    }
   }
 }
 
-.v-step__arrow,
-.v-step__arrow::before {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: inherit;
-}
-
-.v-step__arrow {
-  visibility: hidden;
-
-  &--dark {
-    &:before {
-      background: #454d5d;
-    }
-  }
-}
-
-.v-step__arrow::before {
-  visibility: visible;
-  content: "";
-  transform: rotate(45deg);
-  margin-left: -5px;
-}
-
-.v-step[data-popper-placement^="top"] > .v-step__arrow {
+.v-step-tip[data-popper-placement^="top"] > .v-step__arrow {
   bottom: -5px;
 }
 
-.v-step[data-popper-placement^="bottom"] > .v-step__arrow {
+.v-step-tip[data-popper-placement^="bottom"] > .v-step__arrow {
   top: -5px;
 }
 
-.v-step[data-popper-placement^="right"] > .v-step__arrow {
+.v-step-tip[data-popper-placement^="right"] > .v-step__arrow {
   left: -5px;
 }
 
-.v-step[data-popper-placement^="left"] > .v-step__arrow {
+.v-step-tip[data-popper-placement^="left"] > .v-step__arrow {
   right: -5px;
 }
 
 /* Custom */
 
-.v-step__header {
+.v-step-tip__header {
   margin: -1rem -1rem 0.5rem;
   padding: 0.5rem;
   background-color: #454d5d;
@@ -337,11 +308,27 @@ export default {
   border-top-right-radius: 3px;
 }
 
-.v-step__content {
-  margin: 0 0 1rem 0;
+.v-step-tip__header_empty {
+  margin: -1rem -1rem 0.5rem;
+  padding: 0.5rem;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 
-.v-step__button {
+.v-step-tip__content {
+  margin: 0 0 1rem 0;
+  height: 100%;
+  max-height: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-step-tip__buttons {
+    align-content: space-around;
+}
+
+.v-step-tip__button {
   background: transparent;
   border: 0.05rem solid white;
   border-radius: 0.1rem;
@@ -363,6 +350,12 @@ export default {
   &:hover {
     background-color: rgba(white, 0.95);
     color: #50596c;
+  }
+
+  &-skip {
+    position: absolute;
+    left: 15px;
+    border: none;
   }
 }
 </style>
