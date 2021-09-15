@@ -149,7 +149,7 @@ export default {
       }
 
       if (this.isSticky) {
-        document.body.appendChild(this.$refs['v-step-' + this.hash])
+        document.body.appendChild(this.$refs['v-step-tip' + this.hash])
       } else {
         if (this.targetElement) {
           this.enableScrolling()
@@ -157,7 +157,7 @@ export default {
 
           createPopper(
             this.targetElement,
-            this.$refs['v-step-' + this.hash],
+            this.$refs['v-step-tip' + this.hash],
             this.params
           )
         } else {
@@ -165,7 +165,7 @@ export default {
             console.error(
               '[Vue Tour] The target element ' +
                 this.step.target +
-                ' of .v-step[id="' +
+                ' of .v-step-tip[id="' +
                 this.hash +
                 '"] does not exist!'
             )
@@ -199,7 +199,7 @@ export default {
         console.log(
           `[Vue Tour] Highlight is ${
             this.params.highlight ? 'enabled' : 'disabled'
-          } for .v-step[id="${this.hash}"]`
+          } for .v-step-tip[id="${this.hash}"]`
         )
       }
       return this.params.highlight

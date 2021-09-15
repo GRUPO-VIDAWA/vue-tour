@@ -28,7 +28,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueTour from 'vue-tour'
 
-require('vue-tour/dist/vue-tour.css')
+require('vue-tour/dist/vue-tour-kawak.css')
 
 Vue.use(VueTour)
 
