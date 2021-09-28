@@ -1,22 +1,22 @@
 <template>
     <div
-      v-if="type === 'tip'"
-      v-bind:class="{ 'v-step-tip--sticky': isSticky }"
-      class="v-step-tip"
-      :id="'v-step-tip' + hash"
-      :ref="'v-step-tip' + hash"
+      v-if="type === 'contextHelp'"
+      v-bind:class="{ 'v-step-context-help--rightAnchor': isRightAnchor }"
+      class="v-step-context-help"
+      :id="'v-step-context-help' + hash"
+      :ref="'v-step-context-help' + hash"
     >
       <slot name="header">
-        <div v-if="step.header" class="v-step-tip__header">
+        <div v-if="step.header" class="v-step-context-help__header">
           <div v-if="step.header.title" v-html="step.header.title"></div>
         </div>
-        <div v-if="!step.header" class="v-step-tip__header_empty">
+        <div v-if="!step.header" class="v-step-context-help__header_empty">
           &nbsp;
         </div>
       </slot>
 
       <slot name="content">
-        <div class="v-step-tip__content">
+        <div class="v-step-context-help__content">
           <div v-if="step.content" v-html="step.content"></div>
           <div v-else>
             This is a demo step! The id of this step is {{ hash }} and it
@@ -26,34 +26,38 @@
       </slot>
 
       <slot name="actions">
-        <div class="v-step-tip__buttons">
+        <div class="v-step-context-help__buttons">
           <button
             @click.prevent="skip"
             v-if="!isLast && isButtonEnabled('buttonSkip')"
-            class="v-step-tip__button v-step-tip__button-skip"
+            class="v-step-context-help__button v-step-context-help__button-skip"
           >
-            {{ labels.buttonSkip }}
+            <img src="@/assets/skipforward.png" v-if="labels.buttonSkip === ''" />
+            <span v-if="labels.buttonSkip !== ''">{{ labels.buttonSkip }}</span>
           </button>
           <button
             @click.prevent="previousStep"
             v-if="!isFirst && isButtonEnabled('buttonPrevious')"
-            class="v-step-tip__button v-step-tip__button-previous"
+            class="v-step-context-help__button v-step-context-help__button-previous"
           >
-            {{ labels.buttonPrevious }}
+            <img src="@/assets/previous.png" v-if="labels.buttonPrevious === ''" />
+            <span v-if="labels.buttonPrevious !== ''">{{ labels.buttonPrevious }}</span>
           </button>
           <button
             @click.prevent="nextStep"
             v-if="!isLast && isButtonEnabled('buttonNext')"
-            class="v-step-tip__button v-step-tip__button-next"
+            class="v-step-context-help__button v-step-context-help__button-next"
           >
-            {{ labels.buttonNext }}
+            <img src="@/assets/next.png" v-if="labels.buttonNext === ''" />
+            <span v-if="labels.buttonNext !== ''">{{ labels.buttonNext }}</span>
           </button>
           <button
             @click.prevent="finish"
             v-if="isLast && isButtonEnabled('buttonStop')"
-            class="v-step-tip__button v-step-tip__button-stop"
+            class="v-step-context-help__button v-step-context-help__button-stop"
           >
-            {{ labels.buttonStop }}
+            <img src="@/assets/stop.png" v-if="labels.buttonStop === ''" />
+            <span v-if="labels.buttonStop !== ''">{{ labels.buttonStop }}</span>
           </button>
         </div>
       </slot>
@@ -67,7 +71,7 @@ import sum from 'hash-sum'
 import { DEFAULT_STEP_OPTIONS, HIGHLIGHT } from '../shared/constants'
 
 export default {
-  name: 'v-step-tip',
+  name: 'v-step-context-help',
   props: {
     step: {
       type: Object
@@ -110,7 +114,7 @@ export default {
     },
     type: {
       type: String,
-      default: 'tip' // Or "tip" / "normal"
+      default: 'contextHelp' // Or "tip" / "normal"
     }
   },
   data () {
@@ -133,6 +137,9 @@ export default {
      */
     isSticky () {
       return true // !this.step.target
+    },
+    isRightAnchor () {
+      return true // !this.step.target
     }
   },
   methods: {
@@ -141,15 +148,15 @@ export default {
         console.log(
           '[Vue Tour] The target element ' +
             this.step.target +
-            ' of .v-step-tip[id="' +
+            ' of .v-step-context-help[id="' +
             this.hash +
             '"] is:',
           this.targetElement
         )
       }
 
-      if (this.isSticky) {
-        document.body.appendChild(this.$refs['v-step-tip' + this.hash])
+      if (this.isRightAnchor) {
+        document.body.appendChild(this.$refs['v-step-context-help' + this.hash])
       } else {
         if (this.targetElement) {
           this.enableScrolling()
@@ -157,7 +164,7 @@ export default {
 
           createPopper(
             this.targetElement,
-            this.$refs['v-step-tip' + this.hash],
+            this.$refs['v-step-context-help' + this.hash],
             this.params
           )
         } else {
@@ -165,7 +172,7 @@ export default {
             console.error(
               '[Vue Tour] The target element ' +
                 this.step.target +
-                ' of .v-step-tip[id="' +
+                ' of .v-step-context-help[id="' +
                 this.hash +
                 '"] does not exist!'
             )
@@ -199,7 +206,7 @@ export default {
         console.log(
           `[Vue Tour] Highlight is ${
             this.params.highlight ? 'enabled' : 'disabled'
-          } for .v-step-tip[id="${this.hash}"]`
+          } for .v-step-context-help[id="${this.hash}"]`
         )
       }
       return this.params.highlight
@@ -260,11 +267,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-step-tip {
+.v-step-context-help {
   background: #50596c; /* #ffc107, #35495e */
   color: white;
-  max-width: 620px;
-  width: 400px;
+  max-width: 200px;
+  width: 200px;
   height: 400px;
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
@@ -272,35 +279,44 @@ export default {
   padding: 1rem;
   pointer-events: auto;
   text-align: center;
-  z-index: 10000;
 
   &--sticky {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+
+  &--rightAnchor {
+    position: absolute;
+    z-index: 9999;
+    top: 0px;
+    right: 0px;
+    border-radius: 0px;
+    height: 100vh;
   }
 }
 
-.v-step-tip[data-popper-placement^="top"] > .v-step__arrow {
+.v-step-context-help[data-popper-placement^="top"] > .v-step__arrow {
   bottom: -5px;
 }
 
-.v-step-tip[data-popper-placement^="bottom"] > .v-step__arrow {
+.v-step-context-help[data-popper-placement^="bottom"] > .v-step__arrow {
   top: -5px;
 }
 
-.v-step-tip[data-popper-placement^="right"] > .v-step__arrow {
+.v-step-context-help[data-popper-placement^="right"] > .v-step__arrow {
   left: -5px;
 }
 
-.v-step-tip[data-popper-placement^="left"] > .v-step__arrow {
+.v-step-context-help[data-popper-placement^="left"] > .v-step__arrow {
   right: -5px;
 }
 
 /* Custom */
 
-.v-step-tip__header {
+.v-step-context-help__header {
   margin: -1rem -1rem 0.5rem;
   padding: 0.5rem;
   background-color: #454d5d;
@@ -308,37 +324,34 @@ export default {
   border-top-right-radius: 3px;
 }
 
-.v-step-tip__header_empty {
+.v-step-context-help__header_empty {
   margin: -1rem -1rem 0.5rem;
   padding: 0.5rem;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
 
-.v-step-tip__content {
+.v-step-context-help__content {
   margin: 0 0 1rem 0;
-  height: 100%;
-  max-height: 270px;
+  height: calc(100vh - 150px);
+  max-height: calc(100vh - 150px);
   display: flex;
-  align-items: center;
+  vertical-align: top;
   justify-content: center;
 }
 
-.v-step-tip__buttons {
-    align-content: space-around;
+.v-step-context-help__buttons {
+    top: 10px;
 }
 
-.v-step-tip__button {
+.v-step-context-help__button {
   background: transparent;
-  border: 0.05rem solid white;
-  border-radius: 0.1rem;
-  color: white;
+  border:none;
   cursor: pointer;
   display: inline-block;
   font-size: 0.8rem;
   height: 1.8rem;
   line-height: 1rem;
-  outline: none;
   margin: 0 0.2rem;
   padding: 0.35rem 0.4rem;
   text-align: center;
@@ -348,8 +361,7 @@ export default {
   white-space: nowrap;
 
   &:hover {
-    background-color: rgba(white, 0.95);
-    color: #50596c;
+    stroke: #fff;
   }
 
   &-skip {

@@ -15,6 +15,7 @@
 
   <body>
     <div id="app">
+    <div style="width: calc(100% - 200px);">
       <div class="section section-hero bg-gray">
         <div id="overview" class="grid-hero container grid-lg text-center">
           <div class="docs-brand">
@@ -123,69 +124,30 @@
                     </transition>
                   </template>
                 </v-tour-->
-                <v-tour name="myTour" type="tip" :steps="steps" :callbacks="callbacks" :options="{ highlight: false, labels: { buttonSkip: 'Saltar',
+                <!--<v-tour name="myTour" type="tip" :steps="steps" :callbacks="callbacks" :options="{ highlight: false, labels: { buttonSkip: 'Saltar',
                 buttonPrevious: 'Anterior',
                 buttonNext: 'Siguiente',
                 buttonStop: 'Terminar'
-              } }" />
+              } }" />-->
               </div>
 
-            </div>
-            <div class="column col-10 col-sm-12 col-mx-auto">
-              <a href="https://github.com/pulsardev/vue-tour" class="btn btn-lg" id="v-step-2">Install Vue Tour</a>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="section section-updates bg-gray">
-        <div class="container grid-lg">
-          <div class="columns">
-            <div class="column col-6 col-xs-12">
-              <div class="card" id="v-step-3">
-                <div class="card-header">
-                  <div class="card-title h6">PayPal Donate</div>
-                </div>
-                <div class="card-body">
-                  Vue Tour is completely free to use. If you enjoy it, please consider donating for the further development. ♥
-                </div>
-                <div class="card-footer">
-                  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CLK49A83DXCQ8" class="btn btn-primary" target="_blank">Donate</a>
-                </div>
-              </div>
-            </div>
-            <div class="column col-6 col-xs-12">
-              <div class="card">
-                <div class="card-header">
-                  <div class="card-title h6">Vue Tour Docs</div>
-                </div>
-                <div class="card-body">
-                  Go to our documentation if you want to use Vue Tour in a more advanced way.
-                </div>
-                <div class="card-footer">
-                  <a href="https://github.com/pulsardev/vue-tour/wiki" class="btn btn-primary">Explore</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <footer class="section section-footer">
-        <div id="copyright" class="grid-footer container grid-lg">
-          <p>
-            <a href="https://github.com/pulsardev/vue-tour/wiki" target="_blank">Documents</a> |
-            <a href="https://github.com/pulsardev/vue-tour" target="_blank">GitHub</a> |
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CLK49A83DXCQ8" target="_blank">PayPal Donate</a> |
-            Version <span class="version">{{ version }}</span>
-          </p>
-          <p>
-            Built with <span class="text-error">♥</span> by <a href="https://pulsar.surge.sh" target="_blank">Pulsar</a>.
-            Licensed under the <a href="https://github.com/pulsardev/vue-tour/blob/master/LICENSE" target="_blank">MIT License</a>.
-          </p>
-        </div>
-      </footer>
     </div>
+    <div style="width: 200px;background-color: red;">
+      <v-tour name="myTour"
+          type="contextHelp"
+          :steps="steps"
+          :callbacks="callbacks"
+          :options="{ highlight: false, labels: { buttonSkip: '',
+          buttonPrevious: '',
+          buttonNext: '',
+          buttonStop: ''
+        } }" />
+    </div>
+  </div>
   </body>
 
   <script>

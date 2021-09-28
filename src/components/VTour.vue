@@ -63,6 +63,30 @@
           <a @click="nextStep">Next step</a>
         </div>-->
       </v-step-tip>
+
+      <v-step-context-help
+        v-if="steps[currentStep] && type === 'contextHelp'"
+        :step="steps[currentStep]"
+        :key="currentStep"
+        :previous-step="previousStep"
+        :next-step="nextStep"
+        :stop="stop"
+        :skip="skip"
+        :finish="finish"
+        :is-first="isFirst"
+        :type="type"
+        :is-last="isLast"
+        :labels="customOptions.labels"
+        :enabled-buttons="customOptions.enabledButtons"
+        :highlight="customOptions.highlight"
+        :stop-on-fail="customOptions.stopOnTargetNotFound"
+        :debug="customOptions.debug"
+        @targetNotFound="$emit('targetNotFound', $event)"
+      >
+        <!--<div v-if="index === 2" slot="actions">
+          <a @click="nextStep">Next step</a>
+        </div>-->
+      </v-step-context-help>
     </slot>
   </div>
 </template>
