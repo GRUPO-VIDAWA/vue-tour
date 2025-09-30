@@ -1,6 +1,7 @@
 {
   "name": "vue-tour-kawak",
   "version": "2.0.1",
+  "private": false,
   "description": "",
   "author": "",
   "license": "MIT",
